@@ -55,6 +55,7 @@
     <Compile Include="NodesAndEdges\AnchorNode.cs" />
     <Compile Include="NodesAndEdges\EnvironmentEdge.cs" />
     <Compile Include="NodesAndEdges\EnvironmentNode.cs" />
+    <Compile Include="NodesAndEdges\Extender.cs" />
     <Compile Include="NodesAndEdges\RestrictionEdge.cs" />
     <Compile Include="NodesAndEdges\RestrictionType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

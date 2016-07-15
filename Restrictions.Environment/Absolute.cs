@@ -6,23 +6,10 @@ namespace Restrictions
 {
     public partial class Environment<T>
     {
-        protected internal readonly Graph.Graph _graph;
-        private AnchorNode _root;
 
-        public Environment()
+        public Item Add(string caption)
         {
-
-            var fatory = new Factory();
-            fatory.RegisterCreateNode(graph => new AnchorNode(this));
-            fatory.RegisterCreateEdge((graph, from, to) => new RestrictionEdge(this, from, (AnchorNode)to));
-
-            _graph = new Graph.Graph(fatory);
-            _root = _graph.Add<AnchorNode>();
-        }   
-
-        public Item Add()
-        {
-            return new Item(this);
+            return new Item(this, caption);
         }
 
         public RestrictionEdge Res(AnchorNode node)
@@ -35,7 +22,7 @@ namespace Restrictions
     public class Absolute : Environment<decimal>
     {
 
-        public Absolute()
+        public Absolute() : base()
         {
             AddFunc = (x, y) => x + y;
             SubstractFunc = (x, y) => x - y;

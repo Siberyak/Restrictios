@@ -9,73 +9,67 @@ namespace Restrictions
             IGraph _graph;
             private readonly AnchorNode _start;
             private readonly AnchorNode _finish;
-            private RestrictionEdge _durationRestrictions;
-            private Environment<T> _environment;
+            protected readonly Environment<T> Environment;
 
-            public AnchorNode Start => _start;
-            public AnchorNode Finish => _finish;
+            public IEventedValue Start => _start;
+            public IEventedValue Finish => _finish;
 
-            public Item(Environment<T> environment)
+            public Item(Environment<T> environment, string caption)
             {
-                _environment = environment;
+                Environment = environment;
                 _graph = environment._graph;
 
                 _start = _graph.Add<AnchorNode>();
-                _graph.Link<RestrictionEdge>(environment._root, _start);
+                _start._caption = caption + ".start";
 
                 _finish = _graph.Add<AnchorNode>();
-                _graph.Link<RestrictionEdge>(environment._root, _finish);
+                _finish._caption = caption + ".finish";
 
-                _durationRestrictions = _graph.Link<RestrictionEdge>(_start, _finish);
-                _durationRestrictions.RestrictionType = RestrictionType.Owner;
+                var r = (_finish >= _start).Apply();
             }
 
-            public void RestrictMinDuration(T value, bool included = true)
+            //public void RestrictMinDuration(T value, bool included = true)
+            //{
+            //    _durationRestrictions.Restrictions.Clear(Direction.Left);
+            //    _durationRestrictions.Restrictions.Restrict(value, Direction.Left, included);
+            //    _finish.RecalcValue();
+            //}
+
+            //public void RestrictMaxDuration(T value, bool included = true)
+            //{
+            //    _durationRestrictions.Restrictions.Clear(Direction.Right);
+            //    _durationRestrictions.Restrictions.Restrict(value, Direction.Right, included);
+            //    _finish.RecalcValue();
+            //}
+
+            //public void RestrictDuration(T min, T max, bool minIncluded = true, bool maxIncleded = true)
+            //{
+            //    _durationRestrictions.Restrictions.Clear();
+            //    _durationRestrictions.Restrictions.Restrict(min, Direction.Left, minIncluded);
+            //    _durationRestrictions.Restrictions.Restrict(max, Direction.Right, maxIncleded);
+
+            //    _finish.RecalcValue();
+            //}
+
+            //public void OffsetStart(T offset)
+            //{
+            //    _start.Value = Environment.AddFunc(_start.Value, offset);
+            //}
+
+
+            public Item Add(string caption)
             {
-                _durationRestrictions.Restrictions.Clear(Direction.Left);
-                _durationRestrictions.Restrictions.Restrict(value, Direction.Left, included);
-                RecalcFinish();
-            }
+                var item = new Item(Environment, caption);
 
-            public void RestrictMaxDuration(T value, bool included = true)
-            {
-                _durationRestrictions.Restrictions.Clear(Direction.Right);
-                _durationRestrictions.Restrictions.Restrict(value, Direction.Right, included);
-                RecalcFinish();
-            }
+                var r1 = (item._start >= _start).Apply();
+                var r2 = (item._finish <= _finish).Apply();
 
-            public void RestrictDuration(T min, T max, bool minIncluded = true, bool maxIncleded = true)
-            {
-                _durationRestrictions.Restrictions.Clear();
-                _durationRestrictions.Restrictions.Restrict(min, Direction.Left, minIncluded);
-                _durationRestrictions.Restrictions.Restrict(max, Direction.Right, maxIncleded);
-
-                RecalcFinish();
-            }
-
-            private void RecalcStart()
-            { }
-
-            private void RecalcFinish()
-            {
-                T leftOffset;
-                T rightOffset;
-
-                _durationRestrictions.Restrictions.Offsets(_finish.Value, out leftOffset, out rightOffset);
-                if (leftOffset.CompareTo(Zerro) < 0)
-                    _finish.Value = _environment.SubstractFunc(Zerro, leftOffset);
-                else if (rightOffset.CompareTo(Zerro) < 0)
-                    _finish.Value = _environment.SubstractFunc(Zerro, rightOffset);
-            }
-
-            public void OffsetStart(T offset)
-            {
-                _start.Value = _environment.AddFunc(_start.Value, offset);
+                return item;
             }
 
             public override string ToString()
             {
-                return $"[{_start} - {_finish}] {_durationRestrictions}";
+                return $"[{_start} - {_finish}]";
             }
         } 
     }

@@ -1,15 +1,32 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Restrictions
 {
     public partial class Environment<T>
     {
-        public interface IRestriction : IComparable<IRestriction>
+        public interface IRestriction : IEventedValue
         {
-            bool IsEmpty { get; }
+            IRestrictionOwner Owner { get; }
+            IRestrictionSubject Subject { get; }
+
+            T Offset(T value);
+
             Direction Direction { get; }
-            T Value { get; }
             bool IncludeValue { get; }
+        }
+
+        public interface IRestrictionOwner : IEventedValue
+        {
+            IEnumerable<IRestriction> OwnedRestrictions { get; }
+
+            IRestriction Restrict(IRestrictionSubject subject, T realtiveValue, Direction direction, bool included = true);
+
+        }
+
+        public interface IRestrictionSubject : IEventedValue
+        {
+            IEnumerable<IRestriction> SubjectForRestrictions { get; } 
         }
     }
 }

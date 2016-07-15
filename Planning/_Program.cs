@@ -13,7 +13,7 @@ namespace Planning
         [STAThread]
         static void Main()
         {
-            TestRestrictionsContainer();
+            //TestRestrictionsContainer();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -22,35 +22,35 @@ namespace Planning
 
         private static void TestRestrictionsContainer()
         {
-            var environment = new Environment<int>();
+            //var environment = new Environment<int>();
 
-            var interval = environment.Restrict();
+            //var interval = environment.Restrict();
 
-            interval.Restrict(5, Direction.Left);
-            interval.Restrict(6, Direction.Left);
-            interval.Restrict(3, Direction.Left);
-            interval.Restrict(6, Direction.Left, false);
+            //interval.Restrict(5, Direction.Left);
+            //interval.Restrict(6, Direction.Left);
+            //interval.Restrict(3, Direction.Left);
+            //interval.Restrict(6, Direction.Left, false);
 
-            interval.Restrict(15, Direction.Right);
-            interval.Restrict(10, Direction.Right);
-            interval.Restrict(15, Direction.Right, false);
-            interval.Restrict(20, Direction.Right);
+            //interval.Restrict(15, Direction.Right);
+            //interval.Restrict(10, Direction.Right);
+            //interval.Restrict(15, Direction.Right, false);
+            //interval.Restrict(20, Direction.Right);
 
-            var i1 = environment.Restrict();
-            i1.Restrict(2, Direction.Left);
-            i1.Restrict(7, Direction.Left);
+            //var i1 = environment.Restrict();
+            //i1.Restrict(2, Direction.Left);
+            //i1.Restrict(7, Direction.Left);
 
-            i1.Restrict(18, Direction.Right);
-            i1.Restrict(10, Direction.Right);
+            //i1.Restrict(18, Direction.Right);
+            //i1.Restrict(10, Direction.Right);
 
-            var i2 = environment.Restrict();
-            i2.Restrict(2, Direction.Left);
-            i2.Restrict(3, Direction.Left);
-            i2.Restrict(4, Direction.Left);
+            //var i2 = environment.Restrict();
+            //i2.Restrict(2, Direction.Left);
+            //i2.Restrict(3, Direction.Left);
+            //i2.Restrict(4, Direction.Left);
 
-            i2.Restrict(8, Direction.Right);
-            i2.Restrict(9, Direction.Right);
-            i2.Restrict(10, Direction.Right);
+            //i2.Restrict(8, Direction.Right);
+            //i2.Restrict(9, Direction.Right);
+            //i2.Restrict(10, Direction.Right);
 
 
         }

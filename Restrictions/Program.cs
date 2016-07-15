@@ -16,15 +16,28 @@ namespace Restrictions.View
         {
 
             var absolute = new Absolute();
-            Absolute.Item item = absolute.Add();
+            Absolute.Item item = absolute.Add("main");
 
-            item.RestrictMaxDuration(100);
-            item.RestrictMinDuration(5, false);
+            var subitem1 = item.Add("sub.1");
+            var subitem2 = item.Add("sub.2");
 
-            item.OffsetStart(10);
+            subitem2.Start.Move(5);
 
-            absolute.Res(item.Start).Restrictions.Restrict(15, Direction.Left);
-            absolute.Res(item.Finish).Restrictions.Restrict(30, Direction.Left);
+            item.Start.Move(10);
+            item.Start.Move(-10);
+
+            item.Start.Move(5);
+            item.Start.Move(-20);
+
+            //subitem.RestrictMinDuration(33, true);
+
+            //item.RestrictMaxDuration(100);
+            //item.RestrictMinDuration(5, false);
+
+            //item.OffsetStart(10);
+
+            //absolute.Res(item.Start).Restrictions.Restrict(15, Direction.Left);
+            //absolute.Res(item.Finish).Restrictions.Restrict(30, Direction.Left);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
